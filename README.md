@@ -1,6 +1,6 @@
 # Information Engineering Coureswork
-##Guide
+## Guide
 Contains Java based solution to IE coursework 
-##Stack
+## Stack
 - Java 8
 - JUnit 4.12
