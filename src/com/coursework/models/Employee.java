@@ -17,7 +17,6 @@ public class Employee {
         this.employeeName = name;
         this.contracts = contracts;
     }
-
     public Integer getId() {
         return id;
     }
@@ -41,4 +40,21 @@ public class Employee {
     public void setContracts(List<Contract> contracts) {
         this.contracts = contracts;
     }
+
+    /**
+     * Adds a contract object to list
+     * increasing the number of oontract
+     * for an employee by one
+     * @param contract
+     */
+    public void assignContract(Contract contract){
+        this.contracts.add(contract);
+    }
+
+    /**
+     * Returns the number of contracts the employee has
+     * @return int - number of contracts employee has
+     */
+    public int getNumberOfContracts(){return contracts.size();}
+
 }

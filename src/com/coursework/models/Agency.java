@@ -7,6 +7,12 @@ public class Agency {
     // Agency has many employees working in it - so Agency has one-to-many relation with Employee
     private List<Employee> employeeList;
 
+    public Agency(){};
+
+    public Agency(List<Employee> e){
+        this.employeeList = e;
+    }
+
     public List<Employee> getEmployeeList() {
         return employeeList;
     }
@@ -43,7 +49,7 @@ public class Agency {
         List<Employee> sortedList =  employeeList.stream().sorted((o1, o2) -> Integer.valueOf(o1.getContracts().size()).compareTo(Integer.valueOf(o2.getContracts().size()))).collect(Collectors.toList());
         //Return the employee - findAny() method picks up a random employee object from the stream.
         return sortedList.stream().limit(computeLimitNum(sortedList)).findAny().get();
-    };
+    }
 
     public int getOverallCost(){
         //Get distinct set of contracts
