@@ -1,6 +1,8 @@
-package com.agency.models;
+package com.coursework.models;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Contract {
@@ -12,30 +14,7 @@ public class Contract {
     private Integer maxEmployees;
     // One contract can have many employees working on it - so Contract has one-to-many relation with Employee
     private List<Employee> employees;
-    //Contract has one-to-one relationship with agency
-    private Agency agency;
 
-    public Agency getAgency() {
-        return agency;
-    }
-
-    public void setAgency(Agency agency) {
-        this.agency = agency;
-    }
-
-    public Contract(){};
-
-    public Contract(Integer id, Integer cost){
-        this.id = id;
-        this.cost = cost;
-    }
-    public Contract(Integer id , Integer cost , Integer maxEmployees,Agency agency){
-        this.id = id;
-        this.cost = cost;
-        this.maxEmployees = maxEmployees;
-        this.employees = new ArrayList<>(maxEmployees);
-        this.agency = agency;
-    }
     public Integer getId() {
         return id;
     }
@@ -75,10 +54,52 @@ public class Contract {
      * Otherwise, returns false
      * @return - true - if the user is added to the list.
      */
-    public boolean addDesigner(){
+    public boolean addDesigner(Agency agency){
         //Do the check
-        if (this.employees.size()<this.maxEmployees){ return this.employees.add(agency.getEmployeeWithLeastContracts()); }
+        if (!maxLimitReached()){
+            //Get the employee object
+            Employee e = agency.getEmployeeWithLeastContracts();
+            //Create the contract object
+            Contract c = new Contract();
+            c.setId(this.getId());
+            c.setEmployees(this.getEmployees());
+            c.setMaxEmployees(this.getMaxEmployees());
+            c.setCost(this.getCost());
+            // assing the contract to the employee after adding to the employee list
+            if(this.getEmployees().add(e)) return e.assignContract(c);
+        }
         //Return false otherwise
+        return false;
+    }
+
+    /**
+     * Checks if the contract has employees working on it
+     * @return true - if the employees are present, otherwise false
+     */
+    public boolean hasEmployees(){return this.getEmployees().size() != 0;}
+
+    /**
+     * Checks if the more employees can be added or not to the contract
+     * @return true - if the number of the employees equal to the max employees, otherwise false
+     */
+    public boolean maxLimitReached(){return this.getEmployees().size() == this.maxEmployees;}
+
+    /**
+     * Remove an employee from this list
+     * @param e - employee to be removed
+     * @return true if the employee is removed otherwise false
+     */
+    public boolean removeEmployee(Employee e){return this.getEmployees().remove(e);}
+
+    /**
+     * A contract is presumed to be agreed if
+     * the contract object has an id and cost
+     * affiliated with it. This method checks
+     * if the id and cost have been initialised
+     * @return true if id and cost are associated with the object, otherwise false
+     */
+    public boolean contractAgreed(){
+        if(this.id!=null && this.cost!= null) return true;
         return false;
     }
 }
